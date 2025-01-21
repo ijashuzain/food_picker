@@ -1,5 +1,7 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:food_picker/src/core/router/app_router.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 
@@ -12,7 +14,9 @@ class HomeView extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: Colors.white,
         drawer: Drawer(
+          backgroundColor: Colors.white,
           width: 90.w,
           child: Column(
             children: [
@@ -88,9 +92,12 @@ class HomeView extends StatelessWidget {
           ),
         ),
         appBar: AppBar(
+          backgroundColor: Colors.white,
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                context.router.push(const CartRoute());
+              },
               icon: Badge(
                 label: Text("0"),
                 child: const Icon(

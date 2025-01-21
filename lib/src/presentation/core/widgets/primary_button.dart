@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:food_picker/gen/fonts.gen.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 
-class PrimaryIconButton extends StatelessWidget {
-  const PrimaryIconButton({
+class PrimaryButton extends StatelessWidget {
+  const PrimaryButton({
     super.key,
     required this.label,
-    required this.icon,
     required this.onTap,
     this.isLoading = false,
     this.foregroundColor = Colors.white,
@@ -14,7 +13,6 @@ class PrimaryIconButton extends StatelessWidget {
   });
 
   final String label;
-  final Widget icon;
   final VoidCallback onTap;
   final bool isLoading;
   final Color backgroundColor;
@@ -41,39 +39,29 @@ class PrimaryIconButton extends StatelessWidget {
             children: [
               SizedBox(
                 height: 56.dp,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    isLoading ? SizedBox() : icon,
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 56.dp,
                 width: double.infinity,
                 child: Center(
                   child: isLoading
                       ? SizedBox(
-                    height: 24.dp,
-                    width: 24.dp,
-                    child: Padding(
-                      padding: EdgeInsets.all(1.dp),
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.dp,
-                        color: foregroundColor,
-                      ),
-                    ),
-                  )
+                          height: 24.dp,
+                          width: 24.dp,
+                          child: Padding(
+                            padding: EdgeInsets.all(1.dp),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.dp,
+                              color: foregroundColor,
+                            ),
+                          ),
+                        )
                       : Text(
-                    label,
-                    style: TextStyle(
-                      fontFamily: FontFamily.gilroy,
-                      color: foregroundColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                          label,
+                          style: TextStyle(
+                            fontFamily: FontFamily.gilroy,
+                            color: foregroundColor,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                 ),
               ),
             ],
