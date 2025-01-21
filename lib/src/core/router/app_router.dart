@@ -4,6 +4,8 @@ import 'package:food_picker/src/presentation/views/home_view/home_view.dart';
 import 'package:food_picker/src/presentation/views/login_view/login_view.dart';
 import 'package:food_picker/src/presentation/views/splash_view/splash_view.dart';
 
+import '../../presentation/views/cart_view/cart_view.dart';
+
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'View|Page|Screen,Route')
@@ -25,6 +27,7 @@ class AppRouter extends RootStackRouter {
       AutoRoute(page: SplashRoute.page,initial: true),
       AutoRoute(page: HomeRoute.page),
       AutoRoute(page: LoginRoute.page),
+      AutoRoute(page: CartRoute.page),
     ];
   }
 }
