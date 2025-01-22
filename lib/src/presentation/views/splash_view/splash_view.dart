@@ -16,7 +16,6 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((val) async {
@@ -30,21 +29,20 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<AuthBloc,AuthState>(
-        listener: (context,state){
-          if(state.checkAuthStatus is StatusSuccess){
-            context.router.replace(const HomeRoute());
-          }else if(state.checkAuthStatus is StatusFailure){
-            context.router.replace(const LoginRoute());
-          }
-        },
-        listenWhen: (previous,current) => previous.checkAuthStatus != current.checkAuthStatus,
-        builder: (context,state) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      ),
+      body: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state.checkAuthStatus is StatusSuccess) {
+              context.router.pushAndPopUntil(const HomeRoute(), predicate: (route) => true);
+            } else if (state.checkAuthStatus is StatusFailure) {
+              context.router.pushAndPopUntil(const LoginRoute(), predicate: (route) => true);
+            }
+          },
+          listenWhen: (previous, current) => previous.checkAuthStatus != current.checkAuthStatus,
+          builder: (context, state) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }
