@@ -10,6 +10,8 @@ import 'package:food_picker/src/presentation/core/utils/bottom_sheet_extension.d
 import 'package:food_picker/src/presentation/core/utils/the_toast.dart';
 import 'package:food_picker/src/presentation/core/widgets/primary_button.dart';
 import 'package:food_picker/src/presentation/core/widgets/primary_icon_button.dart';
+import 'package:food_picker/src/presentation/views/login_view/widgets/phone_number_sheet.dart';
+import 'package:food_picker/src/presentation/views/login_view/widgets/phone_verification_sheet.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 
@@ -133,102 +135,5 @@ class LoginView extends StatelessWidget {
   }
 }
 
-class PhoneNumberSheet extends StatelessWidget {
-  PhoneNumberSheet({super.key, required this.onSubmit});
 
-  final Function(String phone) onSubmit;
 
-  final TextEditingController phoneNumberController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.all(16.dp),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("Phone Number", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp)),
-            Gap(24.dp),
-            TextFormField(
-              controller: phoneNumberController,
-              decoration: InputDecoration(
-                prefixIcon: SizedBox(
-                  width: 36.dp,
-                  child: Center(
-                    child: Text(
-                      "+91",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                  ),
-                ),
-                border: OutlineInputBorder(),
-                hintText: "10 digit phone number",
-              ),
-            ),
-            Gap(24.dp),
-            PrimaryButton(
-              label: "Send OTP",
-              onTap: () {
-                if (phoneNumberController.text.isNotEmpty) {
-                  onSubmit("+91${phoneNumberController.text}");
-                } else {
-                  TheMessage.show(message: "Please enter phone number", context: context);
-                }
-              },
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class PhoneVerifySheet extends StatelessWidget {
-  PhoneVerifySheet({super.key, required this.onSubmit});
-
-  final Function(String otp) onSubmit;
-
-  final TextEditingController otpController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.all(16.dp),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("Verify OTP"),
-            TextFormField(
-              controller: otpController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "6 Digit OTP",
-              ),
-            ),
-            Gap(24.dp),
-            BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-              return PrimaryButton(
-                isLoading: state.phoneVerifyOtpStatus is StatusLoading,
-                label: "Verify",
-                onTap: () {
-                  if (otpController.text.isNotEmpty) {
-                    onSubmit(otpController.text);
-                  } else {
-                    TheMessage.show(message: "Please enter 6 digit otp", context: context);
-                  }
-                },
-              );
-            })
-          ],
-        ),
-      ),
-    );
-  }
-}
