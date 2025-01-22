@@ -7,6 +7,6 @@ class ApiEndpoints {
 
   ApiEndpoints(this._urlConfig);
 
-  String get listPhotos => '${_urlConfig.getBaseUrl()}/photos';
+  String get fetchMenu => '${_urlConfig.getBaseUrl()}/mock-menu-api/menu.json';
 
 }

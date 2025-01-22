@@ -18,33 +18,33 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
+    required TResult Function() fetchMenu,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
+    TResult? Function()? fetchMenu,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
+    TResult Function()? fetchMenu,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
+    required TResult Function(_FetchMenu value) fetchMenu,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
+    TResult? Function(_FetchMenu value)? fetchMenu,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
+    TResult Function(_FetchMenu value)? fetchMenu,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -71,18 +71,18 @@ class _$HomeEventCopyWithImpl<$Res, $Val extends HomeEvent>
 }
 
 /// @nodoc
-abstract class _$$StartedImplCopyWith<$Res> {
-  factory _$$StartedImplCopyWith(
-          _$StartedImpl value, $Res Function(_$StartedImpl) then) =
-      __$$StartedImplCopyWithImpl<$Res>;
+abstract class _$$FetchMenuImplCopyWith<$Res> {
+  factory _$$FetchMenuImplCopyWith(
+          _$FetchMenuImpl value, $Res Function(_$FetchMenuImpl) then) =
+      __$$FetchMenuImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$StartedImplCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$StartedImpl>
-    implements _$$StartedImplCopyWith<$Res> {
-  __$$StartedImplCopyWithImpl(
-      _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
+class __$$FetchMenuImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$FetchMenuImpl>
+    implements _$$FetchMenuImplCopyWith<$Res> {
+  __$$FetchMenuImplCopyWithImpl(
+      _$FetchMenuImpl _value, $Res Function(_$FetchMenuImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of HomeEvent
@@ -91,18 +91,18 @@ class __$$StartedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$StartedImpl implements _Started {
-  const _$StartedImpl();
+class _$FetchMenuImpl implements _FetchMenu {
+  const _$FetchMenuImpl();
 
   @override
   String toString() {
-    return 'HomeEvent.started()';
+    return 'HomeEvent.fetchMenu()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$StartedImpl);
+        (other.runtimeType == runtimeType && other is _$FetchMenuImpl);
   }
 
   @override
@@ -111,27 +111,27 @@ class _$StartedImpl implements _Started {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
+    required TResult Function() fetchMenu,
   }) {
-    return started();
+    return fetchMenu();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
+    TResult? Function()? fetchMenu,
   }) {
-    return started?.call();
+    return fetchMenu?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
+    TResult Function()? fetchMenu,
     required TResult orElse(),
   }) {
-    if (started != null) {
-      return started();
+    if (fetchMenu != null) {
+      return fetchMenu();
     }
     return orElse();
   }
@@ -139,69 +139,45 @@ class _$StartedImpl implements _Started {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
+    required TResult Function(_FetchMenu value) fetchMenu,
   }) {
-    return started(this);
+    return fetchMenu(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
+    TResult? Function(_FetchMenu value)? fetchMenu,
   }) {
-    return started?.call(this);
+    return fetchMenu?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
+    TResult Function(_FetchMenu value)? fetchMenu,
     required TResult orElse(),
   }) {
-    if (started != null) {
-      return started(this);
+    if (fetchMenu != null) {
+      return fetchMenu(this);
     }
     return orElse();
   }
 }
 
-abstract class _Started implements HomeEvent {
-  const factory _Started() = _$StartedImpl;
+abstract class _FetchMenu implements HomeEvent {
+  const factory _FetchMenu() = _$FetchMenuImpl;
 }
 
 /// @nodoc
 mixin _$HomeState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    required TResult orElse(),
-  }) =>
+  Status get fetchMenuStatus => throw _privateConstructorUsedError;
+  MenuModel get menu => throw _privateConstructorUsedError;
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $HomeStateCopyWith<HomeState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -209,6 +185,11 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
+  @useResult
+  $Res call({Status fetchMenuStatus, MenuModel menu});
+
+  $StatusCopyWith<$Res> get fetchMenuStatus;
+  $MenuModelCopyWith<$Res> get menu;
 }
 
 /// @nodoc
@@ -223,103 +204,141 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fetchMenuStatus = null,
+    Object? menu = null,
+  }) {
+    return _then(_value.copyWith(
+      fetchMenuStatus: null == fetchMenuStatus
+          ? _value.fetchMenuStatus
+          : fetchMenuStatus // ignore: cast_nullable_to_non_nullable
+              as Status,
+      menu: null == menu
+          ? _value.menu
+          : menu // ignore: cast_nullable_to_non_nullable
+              as MenuModel,
+    ) as $Val);
+  }
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $StatusCopyWith<$Res> get fetchMenuStatus {
+    return $StatusCopyWith<$Res>(_value.fetchMenuStatus, (value) {
+      return _then(_value.copyWith(fetchMenuStatus: value) as $Val);
+    });
+  }
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $MenuModelCopyWith<$Res> get menu {
+    return $MenuModelCopyWith<$Res>(_value.menu, (value) {
+      return _then(_value.copyWith(menu: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
-abstract class _$$InitialImplCopyWith<$Res> {
-  factory _$$InitialImplCopyWith(
-          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
-      __$$InitialImplCopyWithImpl<$Res>;
+abstract class _$$HomeStateImplCopyWith<$Res>
+    implements $HomeStateCopyWith<$Res> {
+  factory _$$HomeStateImplCopyWith(
+          _$HomeStateImpl value, $Res Function(_$HomeStateImpl) then) =
+      __$$HomeStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({Status fetchMenuStatus, MenuModel menu});
+
+  @override
+  $StatusCopyWith<$Res> get fetchMenuStatus;
+  @override
+  $MenuModelCopyWith<$Res> get menu;
 }
 
 /// @nodoc
-class __$$InitialImplCopyWithImpl<$Res>
-    extends _$HomeStateCopyWithImpl<$Res, _$InitialImpl>
-    implements _$$InitialImplCopyWith<$Res> {
-  __$$InitialImplCopyWithImpl(
-      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
+class __$$HomeStateImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$HomeStateImpl>
+    implements _$$HomeStateImplCopyWith<$Res> {
+  __$$HomeStateImplCopyWithImpl(
+      _$HomeStateImpl _value, $Res Function(_$HomeStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fetchMenuStatus = null,
+    Object? menu = null,
+  }) {
+    return _then(_$HomeStateImpl(
+      fetchMenuStatus: null == fetchMenuStatus
+          ? _value.fetchMenuStatus
+          : fetchMenuStatus // ignore: cast_nullable_to_non_nullable
+              as Status,
+      menu: null == menu
+          ? _value.menu
+          : menu // ignore: cast_nullable_to_non_nullable
+              as MenuModel,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$InitialImpl implements _Initial {
-  const _$InitialImpl();
+class _$HomeStateImpl implements _HomeState {
+  _$HomeStateImpl({required this.fetchMenuStatus, required this.menu});
+
+  @override
+  final Status fetchMenuStatus;
+  @override
+  final MenuModel menu;
 
   @override
   String toString() {
-    return 'HomeState.initial()';
+    return 'HomeState(fetchMenuStatus: $fetchMenuStatus, menu: $menu)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitialImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$HomeStateImpl &&
+            (identical(other.fetchMenuStatus, fetchMenuStatus) ||
+                other.fetchMenuStatus == fetchMenuStatus) &&
+            (identical(other.menu, menu) || other.menu == menu));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, fetchMenuStatus, menu);
 
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
+  @pragma('vm:prefer-inline')
+  _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>
+      __$$HomeStateImplCopyWithImpl<_$HomeStateImpl>(this, _$identity);
 }
 
-abstract class _Initial implements HomeState {
-  const factory _Initial() = _$InitialImpl;
+abstract class _HomeState implements HomeState {
+  factory _HomeState(
+      {required final Status fetchMenuStatus,
+      required final MenuModel menu}) = _$HomeStateImpl;
+
+  @override
+  Status get fetchMenuStatus;
+  @override
+  MenuModel get menu;
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

@@ -2,5 +2,14 @@ part of 'home_bloc.dart';
 
 @freezed
 class HomeState with _$HomeState {
-  const factory HomeState.initial() = _Initial;
+  factory HomeState({
+    required Status fetchMenuStatus,
+    required MenuModel menu,
+  }) =
+      _HomeState;
+
+  factory HomeState.initial() => HomeState(
+        fetchMenuStatus: Status.initial(),
+        menu: MenuModel(),
+      );
 }

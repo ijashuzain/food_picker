@@ -1,8 +1,8 @@
 part of 'url_config.dart';
 
 class Url {
-  static const String _prodBaseUrl = 'https://faheemkodi.github.io/mock-menu-api/menu.json';
-  static const String _devBaseUrl = 'https://faheemkodi.github.io/mock-menu-api/menu.json';
+  static const String _prodBaseUrl = 'https://faheemkodi.github.io';
+  static const String _devBaseUrl = 'https://faheemkodi.github.io';
   static const String _localBaseUrl = 'http://localhost';
 
 
