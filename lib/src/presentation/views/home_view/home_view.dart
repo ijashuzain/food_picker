@@ -57,11 +57,11 @@ class HomeView extends StatelessWidget {
                         CircleAvatar(
                           radius: 36.dp,
                           backgroundImage:
-                              NetworkImage(state.user?.photoURL ?? ""),
+                              state.user != null && state.user?.photoURL != null ? NetworkImage(state.user?.photoURL ?? "") : null,
                         ),
                         Gap(16.dp),
                         Text(
-                          state.user?.displayName ?? "",
+                          state.user != null ? state.user?.displayName ?? state.user?.phoneNumber ?? "" : "",
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
