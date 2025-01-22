@@ -55,31 +55,34 @@ class LoginView extends StatelessWidget {
               ),
             ),
             Spacer(),
-            BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
-              if (state.googleLoginStatus is StatusSuccess) {
-                context.router.pushAndPopUntil(HomeRoute(), predicate: (route) => false);
-              } else if (state.googleLoginStatus is StatusFailure) {
-                TheMessage.show(message: state.googleLoginStatus.errorMessage, context: context);
-              }
-            }, builder: (context, state) {
-              return PrimaryIconButton(
-                isLoading: state.googleLoginStatus is StatusLoading,
-                backgroundColor: Colors.blue,
-                icon: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 12.dp,
-                  child: Padding(
-                    padding: EdgeInsets.all(3.dp),
-                    child: Image.asset("assets/images/google.png"),
-                  ),
-                ),
-                label: "Google",
-                onTap: () {
-                  context.read<AuthBloc>().add(AuthEvent.googleLogin());
-                  // context.router.push(HomeRoute());
+            BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state.googleLoginStatus is StatusSuccess) {
+                    context.router.pushAndPopUntil(HomeRoute(), predicate: (route) => false);
+                  } else if (state.googleLoginStatus is StatusFailure) {
+                    TheMessage.show(message: state.googleLoginStatus.errorMessage, context: context);
+                  }
                 },
-              );
-            }),
+                listenWhen: (previous, current) => previous.googleLoginStatus != current.googleLoginStatus,
+                builder: (context, state) {
+                  return PrimaryIconButton(
+                    isLoading: state.googleLoginStatus is StatusLoading,
+                    backgroundColor: Colors.blue,
+                    icon: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 12.dp,
+                      child: Padding(
+                        padding: EdgeInsets.all(3.dp),
+                        child: Image.asset("assets/images/google.png"),
+                      ),
+                    ),
+                    label: "Google",
+                    onTap: () {
+                      context.read<AuthBloc>().add(AuthEvent.googleLogin());
+                      // context.router.push(HomeRoute());
+                    },
+                  );
+                }),
             Gap(8.dp),
             MultiBlocListener(
               listeners: [
@@ -134,6 +137,3 @@ class LoginView extends StatelessWidget {
     );
   }
 }
-
-
-

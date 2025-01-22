@@ -32,9 +32,9 @@ class _SplashViewState extends State<SplashView> {
       body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.checkAuthStatus is StatusSuccess) {
-              context.router.pushAndPopUntil(const HomeRoute(), predicate: (route) => false);
+              context.router.replace(const HomeRoute());
             } else if (state.checkAuthStatus is StatusFailure) {
-              context.router.pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
+              context.router.replace(const LoginRoute());
             }
           },
           listenWhen: (previous, current) => previous.checkAuthStatus != current.checkAuthStatus,
