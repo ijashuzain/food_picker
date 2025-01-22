@@ -13,6 +13,10 @@ import 'package:food_picker/src/core/services/api_services/api_service.dart'
     as _i955;
 import 'package:food_picker/src/core/services/api_services/config/url_config.dart'
     as _i532;
+import 'package:food_picker/src/data/repositories/auth_repository_impl.dart'
+    as _i1070;
+import 'package:food_picker/src/domain/repositories/auth_repository.dart'
+    as _i651;
 import 'package:food_picker/src/presentation/blocs/auth_bloc/auth_bloc.dart'
     as _i969;
 import 'package:food_picker/src/presentation/blocs/home_bloc/home_bloc.dart'
@@ -36,7 +40,7 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     gh.factory<_i324.HomeBloc>(() => _i324.HomeBloc());
-    gh.factory<_i969.AuthBloc>(() => _i969.AuthBloc());
+    gh.factory<_i651.AuthRepository>(() => _i1070.AuthRepositoryImpl());
     gh.lazySingleton<_i532.UrlConfiguration>(
       () => _i532.DevelopmentUrlConfiguration(),
       registerFor: {_dev},
@@ -49,6 +53,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i532.ProductionUrlConfiguration(),
       registerFor: {_prod},
     );
+    gh.factory<_i969.AuthBloc>(
+        () => _i969.AuthBloc(gh<_i651.AuthRepository>()));
     gh.singleton<_i410.ApiEndpoints>(
         () => _i410.ApiEndpoints(gh<_i532.UrlConfiguration>()));
     gh.singleton<_i955.Api>(() => _i955.Api(gh<_i532.UrlConfiguration>()));

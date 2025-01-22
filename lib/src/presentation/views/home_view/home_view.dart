@@ -1,7 +1,10 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_picker/src/core/router/app_router.dart';
+import 'package:food_picker/src/presentation/blocs/auth_bloc/auth_bloc.dart';
+import 'package:food_picker/src/presentation/core/status/status.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 
@@ -37,34 +40,45 @@ class HomeView extends StatelessWidget {
                     end: Alignment.topRight,
                   ),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    const Spacer(),
-                    CircleAvatar(
-                      radius: 36.dp,
-                      backgroundImage: NetworkImage(
-                        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-                      ),
-                    ),
-                    Gap(16.dp),
-                    Text(
-                      "John Doe",
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    Text(
-                      "ID : 4120",
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    const Spacer(),
-                  ],
+                child: BlocConsumer<AuthBloc, AuthState>(
+                  listener: (context,state){
+                    if(state.logoutStatus is StatusSuccess){
+                      context.router.pushAndPopUntil(LoginRoute(), predicate: (route) => true);
+                    }else if(state.logoutStatus is StatusFailure){
+                      //
+                    }
+                  },
+                  listenWhen: (previous, current) => previous.logoutStatus != current.logoutStatus,
+                  builder: (context, state) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const Spacer(),
+                        CircleAvatar(
+                          radius: 36.dp,
+                          backgroundImage:
+                              NetworkImage(state.user?.photoURL ?? ""),
+                        ),
+                        Gap(16.dp),
+                        Text(
+                          state.user?.displayName ?? "",
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        Text(
+                          "ID : ${state.user?.uid}",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        const Spacer(),
+                      ],
+                    );
+                  },
                 ),
               ),
               Expanded(
@@ -83,7 +97,9 @@ class HomeView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        context.read<AuthBloc>().add(AuthEvent.logout());
+                      },
                     ),
                   ],
                 ),
@@ -242,7 +258,9 @@ class DishWidget extends StatelessWidget {
                       ),
                     ),
                     Gap(12.dp),
-                    Text("Customizations Available", style: TextStyle(color: Colors.redAccent, fontSize: 14.sp)),
+                    Text("Customizations Available",
+                        style: TextStyle(
+                            color: Colors.redAccent, fontSize: 14.sp)),
                   ],
                 ),
               ),

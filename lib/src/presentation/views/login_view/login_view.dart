@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_picker/gen/fonts.gen.dart';
 import 'package:food_picker/src/core/router/app_router.dart';
+import 'package:food_picker/src/presentation/blocs/auth_bloc/auth_bloc.dart';
+import 'package:food_picker/src/presentation/core/status/status.dart';
 import 'package:food_picker/src/presentation/core/widgets/primary_icon_button.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
@@ -48,20 +50,33 @@ class LoginView extends StatelessWidget {
               ),
             ),
             Spacer(),
-            PrimaryIconButton(
-              backgroundColor: Colors.blue,
-              icon: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 12.dp,
-                child: Padding(
-                  padding: EdgeInsets.all(3.dp),
-                  child: Image.asset("assets/images/google.png"),
-                ),
-              ),
-              label: "Google",
-              onTap: () {
-                context.router.push(HomeRoute());
+            BlocConsumer<AuthBloc,AuthState>(
+              listener: (context,state){
+                if(state.googleLoginStatus is StatusSuccess){
+                  context.router.pushAndPopUntil(HomeRoute(), predicate: (route) => true);
+                }else if(state.googleLoginStatus is StatusFailure){
+                  //
+                }
               },
+              builder: (context,state) {
+                return PrimaryIconButton(
+                  isLoading: state.googleLoginStatus is StatusLoading,
+                  backgroundColor: Colors.blue,
+                  icon: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 12.dp,
+                    child: Padding(
+                      padding: EdgeInsets.all(3.dp),
+                      child: Image.asset("assets/images/google.png"),
+                    ),
+                  ),
+                  label: "Google",
+                  onTap: () {
+                    context.read<AuthBloc>().add(AuthEvent.googleLogin());
+                    // context.router.push(HomeRoute());
+                  },
+                );
+              }
             ),
             Gap(8.dp),
             PrimaryIconButton(

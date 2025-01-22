@@ -1,7 +1,10 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_picker/src/core/router/app_router.dart';
+import 'package:food_picker/src/presentation/blocs/auth_bloc/auth_bloc.dart';
+import 'package:food_picker/src/presentation/core/status/status.dart';
 
 @RoutePage()
 class SplashView extends StatefulWidget {
@@ -17,16 +20,28 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((val) async {
       await Future.delayed(const Duration(seconds: 2));
-      context.router.replace(const LoginRoute());
+      context.read<AuthBloc>().add(AuthEvent.checkAuth());
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
+    return Scaffold(
+      body: BlocConsumer<AuthBloc,AuthState>(
+        listener: (context,state){
+          if(state.checkAuthStatus is StatusSuccess){
+            context.router.replace(const HomeRoute());
+          }else if(state.checkAuthStatus is StatusFailure){
+            context.router.replace(const LoginRoute());
+          }
+        },
+        listenWhen: (previous,current) => previous.checkAuthStatus != current.checkAuthStatus,
+        builder: (context,state) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       ),
     );
   }
