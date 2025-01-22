@@ -57,7 +57,7 @@ class LoginView extends StatelessWidget {
             Spacer(),
             BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
               if (state.googleLoginStatus is StatusSuccess) {
-                context.router.pushAndPopUntil(HomeRoute(), predicate: (route) => true);
+                context.router.pushAndPopUntil(HomeRoute(), predicate: (route) => false);
               } else if (state.googleLoginStatus is StatusFailure) {
                 TheMessage.show(message: state.googleLoginStatus.errorMessage, context: context);
               }
@@ -100,7 +100,7 @@ class LoginView extends StatelessWidget {
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
                     if (state.phoneVerifyOtpStatus is StatusSuccess) {
-                      context.router.pushAndPopUntil(HomeRoute(), predicate: (route) => true);
+                      context.router.pushAndPopUntil(HomeRoute(), predicate: (route) => false);
                     } else if (state.phoneVerifyOtpStatus is StatusFailure) {
                       TheMessage.show(message: state.phoneVerifyOtpStatus.errorMessage, context: context);
                     }
