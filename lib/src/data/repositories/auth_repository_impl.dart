@@ -53,7 +53,7 @@ class AuthRepositoryImpl implements AuthRepository {
           verificationId: verificationId, smsCode: otp);
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
-      throw "OTP verification failed: $e";
+      throw "OTP verification failed";
     }
   }
 
