@@ -122,7 +122,7 @@ class _HomeViewState extends State<HomeView> {
                   listener: (context, state) {
                     if (state.logoutStatus is StatusSuccess) {
                       context.read<CartBloc>().add(CartEvent.clearCart());
-                      context.router.pushAndPopUntil(LoginRoute(), predicate: (route) => true);
+                      context.router.pushAndPopUntil(LoginRoute(), predicate: (route) => false);
                     } else if (state.logoutStatus is StatusFailure) {
                       TheMessage.show(message: state.logoutStatus.errorMessage, context: context);
                     }
