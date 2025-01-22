@@ -1,5 +1,9 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_picker/src/domain/models/cart_item_model/cart_item_model.dart';
+import 'package:food_picker/src/presentation/blocs/cart_bloc/cart_bloc.dart';
 import 'package:food_picker/src/presentation/core/widgets/primary_button.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
@@ -55,23 +59,41 @@ class CartView extends StatelessWidget {
                             ),
                           ),
                           child: Center(
-                            child: Text(
-                              "2 Dishes 2 Items",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+                              var dishes = state.cartItems.length;
+                              var items = state.cartItems.fold(0, (previousValue, element) => previousValue + element.quantity);
+                              return Text(
+                                "$dishes Dishes - $items Items",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }),
                           ),
                         ),
                         Flexible(
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) => Divider(),
-                            shrinkWrap: true,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            itemBuilder: (context, index) => OrderedDishWidget(),
-                            itemCount: 100,
+                          child: BlocBuilder<CartBloc, CartState>(
+                            builder: (context, state) {
+                              if (state.cartItems.isEmpty) {
+                                return Center(
+                                  child: Text(
+                                    "Your cart is empty",
+                                    style: TextStyle(),
+                                  ),
+                                );
+                              }
+                              return ListView.separated(
+                                separatorBuilder: (context, index) => Divider(),
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemBuilder: (context, index) => OrderedDishWidget(
+                                  cartItem: state.cartItems[index],
+                                ),
+                                itemCount: state.cartItems.length,
+                              );
+                            },
                           ),
                         ),
                         // Footer Section
@@ -104,14 +126,17 @@ class CartView extends StatelessWidget {
                                     ),
                                   ),
                                   Spacer(),
-                                  Text(
-                                    "Rs. 200",
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+                                    var totalPrice = state.cartItems.fold<double>(0, (previousValue, element) => previousValue + (double.parse(element.dish.price) * element.quantity));
+                                    return Text(
+                                      "INR. ${totalPrice.toStringAsFixed(2)}",
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    );
+                                  }),
                                   Gap(16.dp),
                                 ],
                               ),
@@ -128,7 +153,29 @@ class CartView extends StatelessWidget {
             PrimaryButton(
               backgroundColor: Colors.green,
               label: "Place Order",
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    backgroundColor: Colors.white,
+                    surfaceTintColor: Colors.white,
+                    title: Text("Order Summary"),
+                    content: Text("Order placed successfully"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          context.read<CartBloc>().add(CartEvent.clearCart());
+                          context.router.popForced();
+                          context.router.popForced();
+                        },
+                        child: Text(
+                          "OK",
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
             ),
             Gap(16.dp),
           ],
@@ -141,10 +188,14 @@ class CartView extends StatelessWidget {
 class OrderedDishWidget extends StatelessWidget {
   const OrderedDishWidget({
     super.key,
+    required this.cartItem,
   });
+
+  final CartItemModel cartItem;
 
   @override
   Widget build(BuildContext context) {
+    var total = double.parse(cartItem.dish.price) * cartItem.quantity;
     return Container(
       padding: EdgeInsets.all(16.dp),
       child: Row(
@@ -170,7 +221,7 @@ class OrderedDishWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Spanish Salad",
+                  cartItem.dish.name,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.sp,
@@ -178,14 +229,14 @@ class OrderedDishWidget extends StatelessWidget {
                 ),
                 Gap(12.dp),
                 Text(
-                  "SAR 12.00",
+                  "${cartItem.dish.currency} ${cartItem.dish.price}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14.sp,
                   ),
                 ),
                 Text(
-                  "15 Calories",
+                  "${cartItem.dish.calories} Calories",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14.sp,
@@ -207,24 +258,38 @@ class OrderedDishWidget extends StatelessWidget {
             child: Row(
               children: [
                 Gap(10.dp),
-                Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 18.dp,
-                ),
-                Spacer(),
-                Text(
-                  "12",
-                  style: TextStyle(
+                GestureDetector(
+                  onTap: () {
+                    context.read<CartBloc>().add(CartEvent.addItem(cartItem.dish));
+                  },
+                  child: Icon(
+                    Icons.add,
                     color: Colors.white,
-                    fontSize: 14.sp,
+                    size: 18.dp,
                   ),
                 ),
                 Spacer(),
-                Icon(
-                  Icons.remove,
-                  color: Colors.white,
-                  size: 18.dp,
+                BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+                  var index = state.cartItems.indexWhere((element) => element.dishId == cartItem.dishId);
+                  var quantity = index != -1 ? state.cartItems[index].quantity : 0;
+                  return Text(
+                    quantity.toString(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                    ),
+                  );
+                }),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    context.read<CartBloc>().add(CartEvent.removeItem(cartItem.dish));
+                  },
+                  child: Icon(
+                    Icons.remove,
+                    color: Colors.white,
+                    size: 18.dp,
+                  ),
                 ),
                 Gap(10.dp),
               ],
@@ -235,7 +300,7 @@ class OrderedDishWidget extends StatelessWidget {
             height: 68.dp,
             width: 68.dp,
             child: Text(
-              "INR 12.00",
+              "${cartItem.dish.currency} ${total.toStringAsFixed(2)}",
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,

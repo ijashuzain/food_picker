@@ -1,3 +1,3 @@
 class StorageKey {
-  static const String accessToken = 'accessToken';
+  static const String cartItemsKey = 'CartItems';
 }

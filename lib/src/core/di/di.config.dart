@@ -15,14 +15,20 @@ import 'package:food_picker/src/core/services/api_services/config/url_config.dar
     as _i532;
 import 'package:food_picker/src/data/repositories/auth_repository_impl.dart'
     as _i1070;
+import 'package:food_picker/src/data/repositories/cart_repository_impl.dart'
+    as _i695;
 import 'package:food_picker/src/data/repositories/menu_repository_impl.dart'
     as _i609;
 import 'package:food_picker/src/domain/repositories/auth_repository.dart'
     as _i651;
+import 'package:food_picker/src/domain/repositories/cart_repository.dart'
+    as _i422;
 import 'package:food_picker/src/domain/repositories/menu_repository.dart'
     as _i173;
 import 'package:food_picker/src/presentation/blocs/auth_bloc/auth_bloc.dart'
     as _i969;
+import 'package:food_picker/src/presentation/blocs/cart_bloc/cart_bloc.dart'
+    as _i316;
 import 'package:food_picker/src/presentation/blocs/home_bloc/home_bloc.dart'
     as _i324;
 import 'package:get_it/get_it.dart' as _i174;
@@ -43,11 +49,14 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
+    gh.factory<_i422.CartRepository>(() => _i695.CartRepositoryImpl());
     gh.factory<_i651.AuthRepository>(() => _i1070.AuthRepositoryImpl());
     gh.lazySingleton<_i532.UrlConfiguration>(
       () => _i532.DevelopmentUrlConfiguration(),
       registerFor: {_dev},
     );
+    gh.factory<_i316.CartBloc>(
+        () => _i316.CartBloc(gh<_i422.CartRepository>()));
     gh.lazySingleton<_i532.UrlConfiguration>(
       () => _i532.LocalUrlConfiguration(),
       registerFor: {_local},

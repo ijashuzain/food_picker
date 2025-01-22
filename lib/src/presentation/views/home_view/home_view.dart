@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_picker/src/core/router/app_router.dart';
 import 'package:food_picker/src/domain/models/menu_model/menu_model.dart';
 import 'package:food_picker/src/presentation/blocs/auth_bloc/auth_bloc.dart';
+import 'package:food_picker/src/presentation/blocs/cart_bloc/cart_bloc.dart';
 import 'package:food_picker/src/presentation/blocs/home_bloc/home_bloc.dart';
 import 'package:food_picker/src/presentation/core/status/status.dart';
+import 'package:food_picker/src/presentation/core/utils/the_toast.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 
@@ -22,6 +24,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     context.read<HomeBloc>().add(HomeEvent.fetchMenu());
+    context.read<CartBloc>().add(CartEvent.getCart());
     super.initState();
   }
 
@@ -57,9 +60,10 @@ class _HomeViewState extends State<HomeView> {
                   child: BlocConsumer<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state.logoutStatus is StatusSuccess) {
+                        context.read<CartBloc>().add(CartEvent.clearCart());
                         context.router.pushAndPopUntil(LoginRoute(), predicate: (route) => true);
                       } else if (state.logoutStatus is StatusFailure) {
-                        //
+                        TheMessage.show(message: state.logoutStatus.errorMessage, context: context);
                       }
                     },
                     listenWhen: (previous, current) => previous.logoutStatus != current.logoutStatus,
@@ -127,11 +131,15 @@ class _HomeViewState extends State<HomeView> {
                 onPressed: () {
                   context.router.push(const CartRoute());
                 },
-                icon: Badge(
-                  label: Text("0"),
-                  child: const Icon(
-                    Icons.shopping_cart_rounded,
-                  ),
+                icon: BlocBuilder<CartBloc,CartState>(
+                  builder: (context,state){
+                    return Badge(
+                      label: Text(state.cartItems.length.toString()),
+                      child: const Icon(
+                        Icons.shopping_cart_rounded,
+                      ),
+                    );
+                  }
                 ),
               ),
             ],
@@ -278,23 +286,33 @@ class DishWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<CartBloc>().add(CartEvent.addItem(dish));
+                        },
                         icon: Icon(
                           Icons.add,
                           color: Colors.white,
                         ),
                       ),
                       Spacer(),
-                      Text(
-                        "12",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                        ),
+                      BlocBuilder<CartBloc, CartState>(
+                        builder: (context,state) {
+                          var index = state.cartItems.indexWhere((element) => element.dishId == dish.id);
+                          var  quantity = index != -1 ? state.cartItems[index].quantity : 0;
+                          return Text(
+                            quantity.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          );
+                        }
                       ),
                       Spacer(),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<CartBloc>().add(CartEvent.removeItem(dish));
+                        },
                         icon: Icon(
                           Icons.remove,
                           color: Colors.white,
